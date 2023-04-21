@@ -5,8 +5,10 @@ import Footer from "@components/Footer.astro";
 import Tag from "@components/Tag.astro";
 import Datetime from "@components/Datetime";
 import type { CollectionEntry } from "astro:content";
-import 'gitalk/dist/gitalk.css'
-import Gitalk from 'gitalk'
+// import 'gitalk/dist/gitalk.css'
+// import Gitalk from 'gitalk'
+import GitalkComponent from "gitalk/dist/gitalk-component";
+import { AnyZodTuple, any } from "astro/zod";
 
 export interface Props {
   post: CollectionEntry<"blog">;
@@ -14,23 +16,23 @@ export interface Props {
 
 const { post } = Astro.props;
 
-const { title, author, description, ogImage, pubDatetime, tags } = post.data;
+const { title, author, description, ogImage, pubDatetime, tags } = (post as any).data;
 
-const { Content } = await post.render();
+const { Content } = await (post as any).render();
 
 const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin).href;
 
-const gitalk = new Gitalk({
-  clientID: 'GitHub Application Client ID',
-  clientSecret: 'GitHub Application Client Secret',
-  repo: 'GitHub repo',      // The repository of store comments,
-  owner: 'GitHub repo owner',
-  admin: ['GitHub repo owner and collaborators, only these guys can initialize github issues'],
-  id: location.pathname,      // Ensure uniqueness and length less than 50
-  distractionFreeMode: false  // Facebook-like distraction free mode
-})
+// const gitalk = new Gitalk({
+//   clientID: 'GitHub Application Client ID',
+//   clientSecret: 'GitHub Application Client Secret',
+//   repo: 'GitHub repo',      // The repository of store comments,
+//   owner: 'GitHub repo owner',
+//   admin: ['GitHub repo owner and collaborators, only these guys can initialize github issues'],
+//   id: location.pathname,      // Ensure uniqueness and length less than 50
+//   distractionFreeMode: false  // Facebook-like distraction free mode
+// })
 
-gitalk.render('gitalk-container')
+// gitalk.render('gitalk-container')
 
 ---
 
@@ -56,10 +58,17 @@ gitalk.render('gitalk-container')
     </article>
 
     <ul class="tags-container">
-      {tags.map(tag => <Tag name={tag} />)}
+      {tags.map((tag:any) => <Tag name={tag} />)}
     </ul>
   </main>
-  <div id="gitalk-container"></div>
+  <!-- <GitalkComponent options={{
+    clientID: "...",
+    repo: "blog",
+    clientSecret: "",
+    owner: "",
+    admin: [""],
+    id: window.location.pathname,
+  }} /> -->
   <Footer />
 </Layout>
 
