@@ -62,14 +62,17 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin)
       {tags.map((tag: any) => <Tag name={tag} />)}
     </ul>
   </main>
-  <!-- <GitalkComponent options={{
-    clientID: "...",
-    repo: "blog",
-    clientSecret: "",
-    owner: "magnum-zx",
-    admin: ["magnum-zx"],
-    id: window.location.pathname,
-  }} /> -->
+  <GitalkComponent
+    client:only
+    options={{
+      clientID: "d187d6c371dd1158466f",
+      repo: "blog",
+      clientSecret: "14b8df9c9183f627eb3e1fa44521085c26421edb",
+      owner: "magnum-zx",
+      admin: ["magnum-zx"],
+      id: post.id,
+    }}
+  />
   <Footer />
 </Layout>
 
