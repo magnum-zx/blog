@@ -23,7 +23,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
   <Header />
   <main id="main-content">
     <section id="hero">
-      <h1>Mers Wu's Blog</h1>
+      <h1>Magnum ZX's Blog</h1>
       <a
         target="_blank"
         href="/rss.xml"
@@ -40,20 +40,20 @@ const socialCount = SOCIALS.filter(social => social.active).length;
         </svg>
       </a>
 
+      <p>欢迎来到我的个人博客。</p>
+      <p>这里记录着我在学习前端或者其他领域知识中感到有趣的东西。</p>
       <p>
-        AstroPaper is a minimal, responsive, accessible and SEO-friendly Astro
-        blog theme. This theme follows best practices and provides accessibility
-        out of the box. Light and dark mode are supported by default. Moreover,
-        additional color schemes can also be configured.
+        另外，为了保持工作热情（避免失业），我也会在这里记录一些跟面试相关的内容。
       </p>
       <p>
-        Read the blog posts or check
+        如果对我写的内容感兴趣，你也可以在我的社交媒体和
         <LinkButton
           className="hover:text-skin-accent underline underline-offset-4 decoration-dashed"
-          href="https://github.com/satnaing/astro-paper#readme"
+          href="https://github.com/magnum-zx"
         >
-          README
-        </LinkButton> for more info.
+          Github
+        </LinkButton>
+        帐户上关注我。
       </p>
       {
         // only display if at least one social link is enabled
@@ -123,7 +123,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
 <style>
   /* ===== Hero Section ===== */
   #hero {
-    @apply pt-8 pb-6;
+    @apply pb-6 pt-8;
   }
   #hero h1 {
     @apply my-4 inline-block text-3xl font-bold sm:my-8 sm:text-5xl;
@@ -141,13 +141,13 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     @apply mt-4 flex flex-col sm:flex-row sm:items-center;
   }
   .social-links {
-    @apply mr-2 mb-1 whitespace-nowrap sm:mb-0;
+    @apply mb-1 mr-2 whitespace-nowrap sm:mb-0;
   }
 
   /* ===== Featured & Recent Posts Sections ===== */
   #featured,
   #recent-posts {
-    @apply pt-12 pb-6;
+    @apply pb-6 pt-12;
   }
   #featured h2,
   #recent-posts h2 {

@@ -5,10 +5,9 @@ import Footer from "@components/Footer.astro";
 import Tag from "@components/Tag.astro";
 import Datetime from "@components/Datetime";
 import type { CollectionEntry } from "astro:content";
-// import 'gitalk/dist/gitalk.css'
+import "gitalk/dist/gitalk.css";
 // import Gitalk from 'gitalk'
 import GitalkComponent from "gitalk/dist/gitalk-component";
-import { AnyZodTuple, any } from "astro/zod";
 
 export interface Props {
   post: CollectionEntry<"blog">;
@@ -23,18 +22,6 @@ const { Content } = await (post as any).render();
 
 const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin)
   .href;
-
-// const gitalk = new Gitalk({
-//   clientID: 'GitHub Application Client ID',
-//   clientSecret: 'GitHub Application Client Secret',
-//   repo: 'GitHub repo',      // The repository of store comments,
-//   owner: 'GitHub repo owner',
-//   admin: ['GitHub repo owner and collaborators, only these guys can initialize github issues'],
-//   id: location.pathname,      // Ensure uniqueness and length less than 50
-//   distractionFreeMode: false  // Facebook-like distraction free mode
-// })
-
-// gitalk.render('gitalk-container')
 ---
 
 <Layout title={title} author={author} description={description} ogImage={ogUrl}>
@@ -61,18 +48,19 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin)
     <ul class="tags-container">
       {tags.map((tag: any) => <Tag name={tag} />)}
     </ul>
+    <GitalkComponent
+      client:only
+      options={{
+        clientID: "d187d6c371dd1158466f",
+        repo: "blog",
+        clientSecret: "14b8df9c9183f627eb3e1fa44521085c26421edb",
+        owner: "magnum-zx",
+        admin: ["magnum-zx"],
+        id: post.id,
+      }}
+    />
   </main>
-  <GitalkComponent
-    client:only
-    options={{
-      clientID: "d187d6c371dd1158466f",
-      repo: "blog",
-      clientSecret: "14b8df9c9183f627eb3e1fa44521085c26421edb",
-      owner: "magnum-zx",
-      admin: ["magnum-zx"],
-      id: post.id,
-    }}
-  />
+
   <Footer />
 </Layout>
 
