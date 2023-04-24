@@ -1,7 +1,7 @@
 ---
 author: MIŠKO HEVERY
-pubDatetime: 2023-04-19T16:07:52.737Z
-title: A brief history of reactivity
+pubDatetime: 2023-04-19T16:07:52.000+08:00
+title: 响应式系统的前世今生
 postSlug: brief-history-of-reactivity
 featured: true
 ogImage: ""
@@ -9,21 +9,25 @@ tags:
   - reactivity
 description: "响应式系统的前世今生"
 ---
+
 翻译自https://www.builder.io/blog/history-of-reactivity
 
 本文并非权威的`响应式`历史，而是作者的个人经历和感受
 
 # Flex
-我的经历从`Macromedia Flex`开始说起，后来被Adobe收购了。
+
+我的经历从`Macromedia Flex`开始说起，后来被 Adobe 收购了。
 
 `Flex`是一个基于`Flash`的`ActionScript`框架。`ActionScript`是一种与`JavaScript`非常类似的语言，但是`ActionScript`通过注释来让编译器包装字段用于`事件订阅`，大概是类似这样：
+
 ```js
 class MyComponent {
   [Bindable] public var name: String;
 }
 ```
 
-`[Bindable]`注释创建一个`getter/setter`，可以触发属性变化的`事件`。然后你就可以监听属性的变化。`Flex`使用`.mxml`模板文件来渲染UI。如果属性通过监听属性的变化而变化，在`.mxml`中的任何数据绑定都是细粒度的响应。
+`[Bindable]`注释创建一个`getter/setter`，可以触发属性变化的`事件`。然后你就可以监听属性的变化。`Flex`使用`.mxml`模板文件来渲染 UI。如果属性通过监听属性的变化而变化，在`.mxml`中的任何数据绑定都是细粒度的响应。
+
 ```xml
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml">
   <mx:MyComponent>
@@ -31,7 +35,8 @@ class MyComponent {
   </mx:MyComponent>
 </mx:Applicatio>
 ```
-我对`Flex`是`Reactivity(响应式)`的起源的说法存疑，但是确实是我第一次接触。 
+
+我对`Flex`是`Reactivity(响应式)`的起源的说法存疑，但是确实是我第一次接触。
 
 `Reactivity`实际上对`Flex`来说是一个痛苦，因为它很容易制造出`update storms`。`update storms`是指当一个属性发生变化时触发`许多`其他属性发生变化，而这些变化的属性会`进一步`触发其他属性改变，这时就会进入一个无尽的循环当中。由于`Flex`没有将`update property`和`update UI`区分开，以至于会出现频繁的`UI抖动`，也就是会对`中间值`渲染。
 
@@ -39,12 +44,12 @@ class MyComponent {
 
 # AngularJS
 
-`AngularJS`最初的目的就是去`拓展HTML`的语法，为了让那些非开发者（设计师）来建立简单的web应用。这就是AngularJS以`html`标签为结束符号的原因。因为AngularJS是对html的拓展，所以需要将其绑定到任意一个`JavaScript对象`上。在当时，`Proxy`、`getter/setters`、`Object.observe()`都还不是备选项。所以唯一可行的方案是做一个`dirty checking` 脏检查。
+`AngularJS`最初的目的就是去`拓展HTML`的语法，为了让那些非开发者（设计师）来建立简单的 web 应用。这就是 AngularJS 以`html`标签为结束符号的原因。因为 AngularJS 是对 html 的拓展，所以需要将其绑定到任意一个`JavaScript对象`上。在当时，`Proxy`、`getter/setters`、`Object.observe()`都还不是备选项。所以唯一可行的方案是做一个`dirty checking` 脏检查。
 
-每当浏览器`执行异步任务`，dirty checking将通过`读取绑定到模板上的所有属性`进行工作。
+每当浏览器`执行异步任务`，dirty checking 将通过`读取绑定到模板上的所有属性`进行工作。
 
 ```html
-<!doctype html>
+<!DOCTYPE html>
 <html ng-app>
   <head>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
@@ -52,69 +57,74 @@ class MyComponent {
   <body>
     <div>
       <label>Name:</label>
-      <input type="text" ng-model="yourName" placeholder="Enter a name here">
-      <hr>
+      <input type="text" ng-model="yourName" placeholder="Enter a name here" />
+      <hr />
       <h1>Hello {{yourName}}!</h1>
     </div>
   </body>
 </html>
 ```
 
-这种方法的好处是，`任何JavaScript对象`都可以在模板中作为`数据绑定源`，并且update能正常进行。
+这种方法的好处是，`任何JavaScript对象`都可以在模板中作为`数据绑定源`，并且 update 能正常进行。
 
-缺点是，JS必须执行每个update，并且`AngularJS`无法知道变化是什么时候发生的，所以`AngularJS`会比理论上需要更频繁的`dirty checking`。
+缺点是，JS 必须执行每个 update，并且`AngularJS`无法知道变化是什么时候发生的，所以`AngularJS`会比理论上需要更频繁的`dirty checking`。
 
-因为AngularJS仅与JS对象一起工作，并且是html语法的拓展，所以AngularJS从来`没有提供`任何类型的`状态管理`。
-
+因为 AngularJS 仅与 JS 对象一起工作，并且是 html 语法的拓展，所以 AngularJS 从来`没有提供`任何类型的`状态管理`。
 
 # React
 
-`React`是在AngularJS之后出现的，并且做了很多提升。
+`React`是在 AngularJS 之后出现的，并且做了很多提升。
 
-首先，React 引入了 `setState()`，允许React知道什么时候应该执行`vDOM`的`dirty-checking`。这样的好处是，不像AngularJS会在`每次异步任务`执行dirty-checking，React只有在开发者`"告诉"`它进行dirty-checking时才会执行。所以虽然React vDOM dirty-checking在计算上要比Angular更昂贵，但是执行次数会更少。
+首先，React 引入了 `setState()`，允许 React 知道什么时候应该执行`vDOM`的`dirty-checking`。这样的好处是，不像 AngularJS 会在`每次异步任务`执行 dirty-checking，React 只有在开发者`"告诉"`它进行 dirty-checking 时才会执行。所以虽然 React vDOM dirty-checking 在计算上要比 Angular 更昂贵，但是执行次数会更少。
+
 ```js
 function Counter() {
   const [count, setCount] = useState();
-  return <button onClick={() => setCount(count+1)}>{count}</button>
-} 
+  return <button onClick={() => setCount(count + 1)}>{count}</button>;
+}
 ```
+
 其次，React 引入了从`parent`到`child`的`严格数据流`。这些是迈向框架认可的`状态管理`的第一步，而 AngularJS 没有。
 
 # 粗粒度响应式
-React 和 AngularJS 都是粗粒度的响应式。这意味着数据的变化会触发大量JavaScript 的执行。该框架最终会将所有更改协调到 UI 中。这意味着快速变化的属性（例如动画）会导致性能问题。
+
+React 和 AngularJS 都是粗粒度的响应式。这意味着数据的变化会触发大量 JavaScript 的执行。该框架最终会将所有更改协调到 UI 中。这意味着快速变化的属性（例如动画）会导致性能问题。
 
 # 细粒度响应式
+
 上述问题的解决方案是细粒度的反应性，其中状态更改仅更新状态绑定到的 UI 部分。难点是知道如何以具有好的 `DX` 的方式监听属性变化。（DX：`Developer experience`，describes how developers feel about a system while working on it）
 
 # Backbone.js
-Backbone是早于AngularJS的一种框架，它是具有细粒度响应性的，但是语法非常繁琐。
+
+Backbone 是早于 AngularJS 的一种框架，它是具有细粒度响应性的，但是语法非常繁琐。
 
 ```js
 var MyModel = Backbone.Model.extend({
-  initialize: function() {
+  initialize: function () {
     // Listen to changes on itself.
-    this.on('change:name', this.onAsdChange);
+    this.on("change:name", this.onAsdChange);
   },
-  onNameChange: function(model, value) {
-    console.log('Model: Name was changed to:', value);
-  }
+  onNameChange: function (model, value) {
+    console.log("Model: Name was changed to:", value);
+  },
 });
 var myModel = new MyModel();
-myModel.set('name', 'something');
+myModel.set("name", "something");
 ```
 
 我认为冗长的语法是 Backbone 被像 AngularJS 和后来的 React 接管的部分原因。因为开发人员可以简单地使用点符号来访问和设置状态，而不是一组复杂的函数回调。在这些更新的框架中开发应用程序更加容易和快捷。
 
 # Knockout
-Knockout是一个与AngularJS同时出现的框架。虽然我没有使用过，但是以我的理解，但是它同样被`update storms`困扰。虽然，Knockout是对Backbone.js的改进，但是它使用`可观测属性`依旧非常笨重。这也是为什么我认为开发者更喜欢“点符号”框架（AngularJS和React等）的原因。
 
-但是Knockout有一个有趣的创新——`计算属性`，也许在之前就出现了，但确实是我第一次听说。计算属性会根据输入数据自动创建一个订阅。
+Knockout 是一个与 AngularJS 同时出现的框架。虽然我没有使用过，但是以我的理解，但是它同样被`update storms`困扰。虽然，Knockout 是对 Backbone.js 的改进，但是它使用`可观测属性`依旧非常笨重。这也是为什么我认为开发者更喜欢“点符号”框架（AngularJS 和 React 等）的原因。
+
+但是 Knockout 有一个有趣的创新——`计算属性`，也许在之前就出现了，但确实是我第一次听说。计算属性会根据输入数据自动创建一个订阅。
 
 ```js
-var ViewModel = function(first, last) {
+var ViewModel = function (first, last) {
   this.firstName = ko.observable(first);
   this.lastName = ko.observable(last);
-  this.fullName = ko.pureComputed(function() {
+  this.fullName = ko.pureComputed(function () {
     // Knockout自动追踪依赖
     // 知道fullName依赖firstName，lastName
     // 因为在计算fullName时会调用他们
@@ -122,11 +132,13 @@ var ViewModel = function(first, last) {
   }, this);
 };
 ```
+
 当`ko.pureComputed()`调用`this.firstName()`时，该值会隐式创建一个订阅。这是通过`ko.pureComputed()`设置一个全局变量实现的，允许`this.firstName()`与`ko.pureComputed()`进行通信，并且无需开发者做任何额外的工作就可以将订阅信息传递给`ko.pureComputed()`。
 
 # Svelte
-Svelte使用一个`编译器`整合了`响应式`。这么做的好处是，语法可以更加灵活，不必限制于JavaScript。
-Svelte具有非常自然的响应式组件的语法。但是Svelte无法编译所有文件，只能处理`.svelte`文件。如果你想在未编译文件中使用响应式，Svelte提供了一个`store API`，它没有编译文件的响应式特性，而是要求使用`subscribe`和`unsubscribe`来进行明确的注册。
+
+Svelte 使用一个`编译器`整合了`响应式`。这么做的好处是，语法可以更加灵活，不必限制于 JavaScript。
+Svelte 具有非常自然的响应式组件的语法。但是 Svelte 无法编译所有文件，只能处理`.svelte`文件。如果你想在未编译文件中使用响应式，Svelte 提供了一个`store API`，它没有编译文件的响应式特性，而是要求使用`subscribe`和`unsubscribe`来进行明确的注册。
 
 ```js
 const count = writable(0);
@@ -134,16 +146,22 @@ const unsubscribe = count.subscribe(value => {
   countValue = value;
 });
 ```
+
 我认为用两种不同的方式做同一件事并不理想，因为你必须在头脑中保留两种不同的心智模型并在它们之间进行选择。因此，更加推荐只使用一种方法。
 
 # RxJS
-RxJS 是一个响应式库，`没有与任何其他底层渲染系统进行捆绑`。这似乎是一个优势，但是它有一个缺陷。导航到一个新页面时，需要将旧UI清除，再构建新的UI。对于 RxJS，这意味着需要进行许多`取消订阅`和`订阅`。这种额外的工作意味着粗粒度的响应式系统在这种情况下更快，因为清除只是丢弃 UI（垃圾收集），而构建不需要任何`注册/分配`监听器。我们需要的是一种`批量`取消订阅/订阅的方法。
+
+RxJS 是一个响应式库，`没有与任何其他底层渲染系统进行捆绑`。这似乎是一个优势，但是它有一个缺陷。导航到一个新页面时，需要将旧 UI 清除，再构建新的 UI。对于 RxJS，这意味着需要进行许多`取消订阅`和`订阅`。这种额外的工作意味着粗粒度的响应式系统在这种情况下更快，因为清除只是丢弃 UI（垃圾收集），而构建不需要任何`注册/分配`监听器。我们需要的是一种`批量`取消订阅/订阅的方法。
 
 ```js
 const observable1 = interval(400);
 const observable2 = interval(300);
-const subscription = observable1.subscribe(x => console.log('[first](https://rxjs.dev/api/index/function/first): ' + x));
-const childSubscription = observable2.subscribe(x => console.log('second: ' + x));
+const subscription = observable1.subscribe(x =>
+  console.log("[first](https://rxjs.dev/api/index/function/first): " + x)
+);
+const childSubscription = observable2.subscribe(x =>
+  console.log("second: " + x)
+);
 subscription.add(childSubscription);
 setTimeout(() => {
   // Unsubscribes BOTH subscription and childSubscription
@@ -163,11 +181,10 @@ setTimeout(() => {
 </template>
 
 <script setup>
-import { ref } from "vue";
+  import { ref } from "vue";
 
-const count = ref(1);
+  const count = ref(1);
 </script>
-
 ```
 
 在上面的示例中，模板（template）通过在渲染期间读取`count`，自动创建对`count`的订阅。这期间，开发人员不需要额外的工作。
@@ -175,24 +192,26 @@ const count = ref(1);
 # SolidJS
 
 `Proxy` 的缺点是不能传递对 `getter/setter` 的引用。您可以传递整个 `Proxy` 或 `属性的值`，但你可以从 `store` 中剥离一个 `getter` 并传递它。以这个问题为例。
-``` js
+
+```js
 function App() {
-  const state = createStateProxy({count: 1});
+  const state = createStateProxy({ count: 1 });
   return (
     <>
       <button onClick={() => state.count++}>+1</button>\
-      <Wrapper value={state.count}/>
+      <Wrapper value={state.count} />
     </>
   );
 }
 
 function Wrapper(props) {
-  return <Display value={state.value}/>
+  return <Display value={state.value} />;
 }
 function Display(props) {
-  return <span>Count: {props.value}</span>
+  return <span>Count: {props.value}</span>;
 }
 ```
+
 当我们读取 `state.count` 时，得到的数字是初始值的，并且不再可观察。这意味着 `Middle` 和 `Child` 都需要在 `state.count` 更改时重新渲染。我们失去了细粒度的反应性。理想情况下，只有 `Count:` 应该被更新。我们需要一种方法，传递对值的引用而不是值本身。
 
 # Enter Signals
@@ -205,23 +224,26 @@ function App() {
   return (
     <>
       <button onClick={() => setCount(count() + 1)}>+1</button>
-      <Wrapper value={count}/>
+      <Wrapper value={count} />
     </>
   );
 }
-function Wrapper(props: {value: Accessor<number>}) {
-  return <Display value={props.value}/>
+function Wrapper(props: { value: Accessor<number> }) {
+  return <Display value={props.value} />;
 }
-function Display(props: {value: Accessor<number>}) {
-  return <span>Count: {props.value}</span>
+function Display(props: { value: Accessor<number> }) {
+  return <span>Count: {props.value}</span>;
 }
 ```
+
 这种解决方案的好处是，我们没有传递`值`而是传递了一个`Accessor（一个getter）`，这意味着当`count`值改变时，我们不必通过`Wrapper`和`Display`，而是直接对`DOM`进行一个`更新`。在工作方式上与`Knockout`非常相似，但是在语法上与`Vue/Mobx`非常相似.
 
-但是这存在一个DX问题，作为组件的使用者，假设我们想要绑定一个常量
+但是这存在一个 DX 问题，作为组件的使用者，假设我们想要绑定一个常量
+
 ```js
-<Display value={10}/>
+<Display value={10} />
 ```
+
 由于`Display`被定义为`Accessor（访问器）`，所以这是不起作用的。
 
 ```js
@@ -243,15 +265,15 @@ function App() {
   return (
     <>
       <button onClick={() => setCount(count() + 1)}>+1</button>
-      <Wrapper value={count()}/>
+      <Wrapper value={count()} />
     </>
   );
 }
-function Wrapper(props: {value: number}) {
-  return <Display value={props.value}/>
+function Wrapper(props: { value: number }) {
+  return <Display value={props.value} />;
 }
-function Display(props: {value: number}) {
-  return <span>Count: {props.value}</span>
+function Display(props: { value: number }) {
+  return <span>Count: {props.value}</span>;
 }
 ```
 
@@ -265,26 +287,30 @@ function Display(props: {value: number}) {
 但这是否意味着我们现在已经打破了反应性？答案是肯定的，除非我们可以让编译器执行一个技巧来恢复我们的反应性。问题是这一行：
 
 ```js
-<Wrapper value={count()}/>
+<Wrapper value={count()} />
 ```
 
 调用 `count()` 将`访问器`转换为`原始属性`并创建订阅。所以编译器做了这个把戏。
 
 ```js
 Wrapper({
-  get value() { return count(); }
-})
+  get value() {
+    return count();
+  },
+});
 ```
 
 当 `count()` 作为一个 `prop` 传递给子组件时，通过将其包装在一个`getter`中，使得编译器可以延长 `count()` 的执行时机，直到 `DOM` 需要使用这个值。
 
 这样的好处是：
+
 - 简洁的语法
 - 自动订阅与取消订阅
 - 组件接口不必 `原始类型` 和 `Accessor` 二选一
 - 即使开发人员将 `Accessor` 转换为 `原始类型`，响应式仍然有效。
 
 # 响应式与渲染
+
 让我们想象一个场景，一个带有购买按钮和购物车的页面。
 ![](https://cdn.builder.io/api/v1/image/assets%2FYJIGb4i01jvw0SRdL5Bt%2F462fa726ceaa45bbac48c9a1a6e7714b?format=webp&width=2000)
 
@@ -295,7 +321,6 @@ Wrapper({
 
 我们必须找到 `Buy` 和 `Cart` 组件之间的公共根，因为这是最有可能存放状态的地方。然后，在更改状态时，与该状态关联的树必须重新渲染。使用记忆化（memoization），可以将树修剪成两条最小路径，如上所示。许多代码仍然需要执行，尤其是当应用程序变得越来越复杂时。
 
-
 在一个细粒度的响应式系统中，它看起来像这样：
 ![](https://cdn.builder.io/api/v1/image/assets%2FYJIGb4i01jvw0SRdL5Bt%2F958e7be34d234dcfa7c90ca17e8d3858?format=webp&width=2000)
 
@@ -305,7 +330,6 @@ Wrapper({
 
 但是细粒度的响应式系统有一个意想不到的极端情况。为了让系统至少建立一次响应式图，必须执行所有组件才能了解这些关系！一旦建立起来，该系统就可以进行`外科手术`。这是初始执行的样子：
 ![](https://cdn.builder.io/api/v1/image/assets%2FYJIGb4i01jvw0SRdL5Bt%2F5523a7449125407c910a564412acaac1?format=webp&width=2000)
-
 
 这个问题就是我们想 lazy 下载和执行，但是响应图的初始化强制应用程序完全执行（下载）
 

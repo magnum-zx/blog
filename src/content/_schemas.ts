@@ -1,5 +1,9 @@
 import { z } from "astro:content";
 
+// pubDatetime: z.string().transform((str) => {
+//   let date = new Date(Date.parse(str) + 8 * 3600 * 1000);
+//   return date
+// }),
 export const blogSchema = z
   .object({
     author: z.string().optional(),
