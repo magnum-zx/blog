@@ -3,8 +3,8 @@ import type { Site, SocialObjects } from "./types";
 export const SITE: Site = {
   website: "https://blog-magnum-zx.vercel.app/",
   author: "magnum-zx",
-  desc: "记录与前端开发有关的内容",
-  title: "Blog",
+  desc: "MagnumZX的个人博客",
+  title: "MagnumZX",
   ogImage: "astropaper-og.jpg",
   lightAndDarkMode: true,
   postPerPage: 3,

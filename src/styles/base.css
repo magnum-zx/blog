@@ -5,10 +5,14 @@
 @layer base {
   :root,
   html[data-theme="light"] {
+    /* 米白色 */
     /* --color-fill: 251,254,251; */
+    /* 浅绿色 */
+    /* --color-fill: 241, 246, 249; */
+    /* 白色 */
     --color-fill: 255, 255, 255;
     --color-text-base: 40, 39, 40;
-    --color-accent: 0, 108, 172;
+    --color-accent: 164, 188, 146;
     --color-card: 230, 230, 230;
     --color-card-muted: 205, 205, 205;
     --color-border: 236, 233, 233;

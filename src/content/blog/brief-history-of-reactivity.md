@@ -7,7 +7,7 @@ featured: true
 ogImage: ""
 tags:
   - reactivity
-description: "响应式系统的前世今生"
+description: "本文将简要介绍响应式系统的前世今生。响应式已经是现代前端框架中最常见的特性了，作为前端小白很有必要了解一下响应式是什么时候出现的，以及它解决了什么问题。"
 ---
 
 翻译自https://www.builder.io/blog/history-of-reactivity
