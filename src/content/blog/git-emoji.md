@@ -1,7 +1,7 @@
 ---
 author: magnum-zx
 pubDatetime: 2023-04-26T15:42:00.000+08:00
-title: "GitEmoji: 如何在 git 中使用 emoji 表情"
+title: "GitEmoji：如何在 git 中使用 emoji 表情"
 postSlug: git-emoji
 featured: true
 ogImage: ""
