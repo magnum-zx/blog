@@ -10,7 +10,6 @@ tags:
 description: "作为一个帅气的coder，怎么能允许自己的commit丑陋，赶紧用emoji提升commit的帅气度！"
 ---
 
-<!-- <img decoding="async" src="../../assets/emoji.svg" width="50%"> -->
 
 | commit description              | emoji                         | commit description                 | emoji                          |
 | :------------------------------ | :---------------------------- | :--------------------------------- | :----------------------------- |
