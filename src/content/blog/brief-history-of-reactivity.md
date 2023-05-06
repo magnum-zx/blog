@@ -1,5 +1,5 @@
 ---
-author: MIŠKO HEVERY
+author: magnum-zx
 pubDatetime: 2023-04-19T16:07:52.000+08:00
 title: 响应式系统的前世今生
 postSlug: brief-history-of-reactivity
@@ -10,7 +10,7 @@ tags:
 description: "本文将简要介绍响应式系统的前世今生。响应式已经是现代前端框架中最常见的特性了，作为前端小白很有必要了解一下响应式是什么时候出现的，以及它解决了什么问题。"
 ---
 
-翻译自https://www.builder.io/blog/history-of-reactivity
+翻译自https://www.builder.io/blog/history-of-reactivity 原作者：MIŠKO HEVERY
 
 本文并非权威的`响应式`历史，而是作者的个人经历和感受
 

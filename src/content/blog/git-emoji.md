@@ -6,7 +6,7 @@ postSlug: git-emoji
 featured: true
 ogImage: ""
 tags:
-  - utility
+  - git
 description: "作为一个帅气的coder，怎么能允许自己的commit丑陋，赶紧用emoji提升commit的帅气度！"
 ---
 

@@ -11,6 +11,7 @@ description: "互联网的爆发式增长同样伴随着生产力工具的发展
 ---
 
 # 记录一些实用的工具
+
 本文包括但不限于工具，文档，图书
 
 ## Markdown
@@ -23,4 +24,8 @@ description: "互联网的爆发式增长同样伴随着生产力工具的发展
 
 ## AI
 
-[ChatGPT](https://chat.openai.com/)
+- [ChatGPT](https://chat.openai.com/)
+
+## Design
+
+- [Color Hunt](https://colorhunt.co/)：主题配色
