@@ -40,15 +40,3 @@ title: "About"
 ## 本站的开发
 
 本站基于 Astro 站点构建框架，内部页面组件使用 React，样式使用 TailwindCSS。另外，感谢 [AstroPaper](https://github.com/satnaing/astro-paper) 博客模板，提供了简约的博客样式风格。
-
-具有以下优势：
-
-- fully responsive and accessible
-- SEO-friendly
-- light & dark mode
-- fuzzy search
-- super fast performance
-- draft posts
-- pagination
-- sitemap & rss feed
-- highly customizable
